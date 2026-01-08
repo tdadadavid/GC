@@ -78,7 +78,7 @@ func (t *Tree[T]) Find(value T) (isFound bool) {
 				return false
 			}
 			currentNode = currentNode.Right
-		} else if value == currentNode.Value {
+		} else {
 			return true
 		}
 	}
