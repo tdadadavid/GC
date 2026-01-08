@@ -36,7 +36,6 @@ func (t *Tree[T]) Insert(value T) {
 		return
 	}
 
-
 	currentNode := t.Root
 	for {
 		// 	a. less than root -> Left
@@ -59,6 +58,30 @@ func (t *Tree[T]) Insert(value T) {
 
 	}
 
+}
+
+func (t *Tree[T]) Find(value T) (isFound bool) {
+	// if the tree is empty return false
+	if t.isEmpty() {
+		return false
+	}
+
+	currentNode := t.Root
+	for {
+		if value < currentNode.Value {
+			if currentNode.Left == nil {
+				return false
+			}
+			currentNode = currentNode.Left
+		} else if value > currentNode.Value {
+			if currentNode.Right == nil {
+				return false
+			}
+			currentNode = currentNode.Right
+		} else if value == currentNode.Value {
+			return true
+		}
+	}
 }
 
 func (t *Tree[T]) isEmpty() bool {
