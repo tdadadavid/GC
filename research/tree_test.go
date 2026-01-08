@@ -20,7 +20,6 @@ func TestTree_InsertRoot(t *testing.T) {
 	if tree.Root.Left != nil && tree.Root.Right != nil {
 		t.Fatalf("expected right & left subtree to be nil, got left=%T, right=%T", tree.Root.Left, tree.Root.Right)
 	}
-
 }
 
 func TestTree_Insert(t *testing.T) {
@@ -43,7 +42,6 @@ func TestTree_Find(t *testing.T) {
 
 	found := tree.Find(-20)
 
-	t.Logf("tree %v", tree)
 	if !found {
 		t.Fatalf("expected found to be true got=%t", found)
 	}
@@ -52,7 +50,24 @@ func TestTree_Find(t *testing.T) {
 	if found {
 		t.Fatalf("expected found to be false got=%t", found)
 	}
+}
 
+func TestTree_PreOrder(t *testing.T) {
+	tree := NewTree[int]()
+	setup(t, tree, 7, 4, 9, 1, 6, 8, 10)
+	expectedOrder := []int{7, 4, 1, 6, 9, 8, 10}
+
+	result := make([]int, 0)
+	result = tree.PreOrder(tree.Root, result)
+	if len(expectedOrder) != len(result) {
+		t.Fatalf("expected length %d, got %d", len(expectedOrder), len(result))
+	}
+
+	for i := range len(expectedOrder) {
+		if expectedOrder[i] != result[i] {
+			t.Fatalf("expected=%v, got=%v", expectedOrder, result)
+		}
+	}
 }
 
 func setup(t *testing.T, tree *Tree[int], values ...any) *Tree[int] {

@@ -83,10 +83,21 @@ func (t *Tree[T]) Find(value T) (isFound bool) {
 }
 
 // Root -> Left -> Right
-func (t *Tree[T]) PreOrder() *[]T {
-	if t.isEmpty() {
-		return nil
+func (t *Tree[T]) PreOrder(node *Node[T], result []T) []T {
+	if node == nil {
+		return result
 	}
+
+	// Root
+	result = append(result, node.Value)
+
+	// Left
+	result = t.PreOrder(node.Left, result)
+
+	// Right
+	result = t.PreOrder(node.Right, result)
+
+	return result
 }
 
 func (t *Tree[T]) isEmpty() bool {
