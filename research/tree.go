@@ -1,9 +1,7 @@
 package research
 
 import (
-	"fmt"
 	"golang.org/x/exp/constraints"
-	"strings"
 )
 
 type Node[T constraints.Ordered] struct {
@@ -84,49 +82,13 @@ func (t *Tree[T]) Find(value T) (isFound bool) {
 	}
 }
 
+// Root -> Left -> Right
+func (t *Tree[T]) PreOrder() *[]T {
+	if t.isEmpty() {
+		return nil
+	}
+}
+
 func (t *Tree[T]) isEmpty() bool {
 	return t.Root == nil
-}
-
-//--- Helper Functions for test logs ---//
-
-func (t *Tree[T]) String() string {
-	if t.isEmpty() {
-		return "null"
-	}
-
-	return formatNode(t.Root, 0)
-}
-
-func formatNode[T constraints.Ordered](n *Node[T], indent int) string {
-	if n == nil {
-		return "null"
-	}
-
-	indentStr := strings.Repeat("  ", indent)
-	nextIndentStr := strings.Repeat("  ", indent+1)
-
-	var sb strings.Builder
-
-	sb.WriteString("{\n")
-
-	sb.WriteString(nextIndentStr)
-	sb.WriteString(`"value": `)
-	sb.WriteString(fmt.Sprintf("%v", n.Value))
-	sb.WriteString(",\n")
-
-	sb.WriteString(nextIndentStr)
-	sb.WriteString(`"left": `)
-	sb.WriteString(formatNode(n.Left, indent+1))
-	sb.WriteString(",\n")
-
-	sb.WriteString(nextIndentStr)
-	sb.WriteString(`"right": `)
-	sb.WriteString(formatNode(n.Right, indent+1))
-	sb.WriteString("\n")
-
-	sb.WriteString(indentStr)
-	sb.WriteString("}")
-
-	return sb.String()
 }
