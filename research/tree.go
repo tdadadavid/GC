@@ -1,6 +1,7 @@
 package research
 
 import (
+	"errors"
 	"golang.org/x/exp/constraints"
 )
 
@@ -29,7 +30,7 @@ func (t *Tree[T]) Insert(value T) {
 	node := NewNode(value)
 
 	// first check if the root of the tree is empty
-	if t.isEmpty() {
+	if isEmpty(t.Root) {
 		t.Root = node
 		return
 	}
@@ -60,7 +61,7 @@ func (t *Tree[T]) Insert(value T) {
 
 func (t *Tree[T]) Find(value T) (isFound bool) {
 	// if the tree is empty return false
-	if t.isEmpty() {
+	if isEmpty(t.Root) {
 		return false
 	}
 
@@ -131,8 +132,50 @@ func (t *Tree[T]) Height() (count int) {
 	return height[T](t.Root)
 }
 
-func (t *Tree[T]) isEmpty() bool {
-	return t.Root == nil
+func (t *Tree[T]) Min() (T, error) {
+	result, ok := minimum[T](t.Root)
+
+	if !ok {
+		return result, errors.New("error finding min")
+	}
+
+	return result, nil
+}
+
+func isEmpty[T constraints.Ordered](node *Node[T]) bool {
+	return node == nil
+}
+
+
+
+func minimum[T constraints.Ordered](root *Node[T]) (T, bool) {
+	var zero T
+
+	if isEmpty(root) {
+		return zero, false
+	}
+
+	if isLeaf(root) {
+		return root.Value, false
+	}
+
+	left, ok := minimum(root.Left)
+	if !ok {
+		return left, false
+	}
+
+	right, ok := minimum(root.Right)
+	if !ok {
+		return right, false
+	}
+
+	mini := min(left, right)
+
+	return min(mini, root.Value), true
+}
+
+func isLeaf[T constraints.Ordered](node *Node[T]) bool {
+	return node.Left == nil && node.Right == nil
 }
 
 func height[T constraints.Ordered](root *Node[T]) (count int) {

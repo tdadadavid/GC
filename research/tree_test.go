@@ -1,6 +1,7 @@
 package research
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -133,6 +134,48 @@ func TestTree_Height(t *testing.T) {
 			count := tree.Height()
 			if count != tt.expectedHeight {
 				t.Fatalf("expected height of the tree to be %d, got=%d", tt.expectedHeight, count)
+			}
+		})
+	}
+}
+
+func TestTree_Minimum(t *testing.T) {
+	tests := []struct{
+		name string
+		input []int
+		expectedMin int
+		expectError bool
+	}{
+		{
+			name: "the minimum of an empty tree is 0",
+			input: []int{},
+			expectError: true,
+		},
+		// {
+		// 	name: "minimum is 1",
+		// 	input: []int{10,8,15,3,9,1,2,12},
+		// 	expectedMin: 1,
+		// 	expectError: false,
+		// },
+	}
+
+	for _ , tt := range tests {
+		t.Run(tt.name, func (t *testing.T) {
+			tree := NewTree[int]()
+
+			for _, value := range tt.input {
+				tree.Insert(value)
+			}
+
+			fmt.Printf("tree %v", tree)
+
+			min, err := tree.Min()
+			if tt.expectError && err == nil {
+				t.Fatalf("expected error got <nil>")
+				return
+			}
+			if min != tt.expectedMin {
+				t.Fatalf("expected minimum value of the tree to be %d, got=%d", tt.expectedMin, min)
 			}
 		})
 	}

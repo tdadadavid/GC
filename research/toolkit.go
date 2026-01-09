@@ -7,7 +7,7 @@ import (
 )
 
 func (t *Tree[T]) String() string {
-	if t.isEmpty() {
+	if isEmpty(t.Root) {
 		return "null"
 	}
 
