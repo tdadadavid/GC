@@ -1,6 +1,7 @@
 package main
 
 type Object struct {
+	Name string
 }
 
 func New() *Object {

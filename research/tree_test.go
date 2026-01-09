@@ -100,6 +100,44 @@ func TestTree_PostOrder(t *testing.T) {
 	}
 }
 
+func TestTree_Height(t *testing.T) {
+	tests := []struct{
+		name string
+		input []int
+		expectedHeight int
+	}{
+		{
+			name: "Height of an empty tree is -1",
+			input: []int{},
+			expectedHeight: -1,
+		},
+		{
+			name: "Height of the tree should be 1",
+			input: []int{1,2},
+			expectedHeight: 1,
+		},
+		{
+			name: "Height of tree should be 4",
+			input: []int{10,8,15,3,9,1,2,12},
+			expectedHeight: 4,
+		},
+	}
+
+	for _ , tt := range tests {
+		t.Run(tt.name, func (t *testing.T) {
+			tree := NewTree[int]()
+			for _, value := range tt.input {
+				tree.Insert(value)
+			}
+
+			count := tree.Height()
+			if count != tt.expectedHeight {
+				t.Fatalf("expected height of the tree to be %d, got=%d", tt.expectedHeight, count)
+			}
+		})
+	}
+}
+
 func compare(t *testing.T, expected, got []int) bool {
 	t.Helper()
 

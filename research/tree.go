@@ -126,6 +126,25 @@ func (t *Tree[T]) PostOrder(node *Node[T], result []T) []T {
 	return result
 }
 
+// Height of tree is the number of edges from the leaf node to the particular node.
+func (t *Tree[T]) Height() (count int) {
+	return height[T](t.Root)
+}
+
 func (t *Tree[T]) isEmpty() bool {
 	return t.Root == nil
+}
+
+func height[T constraints.Ordered](root *Node[T]) (count int) {
+	if root == nil { // this is an empty tree or a leaf node
+		return -1 // the height of an empty is -1
+	}
+
+	if root.Left == nil && root.Right == nil {
+		return count // count is zero at this point
+	}
+
+	count = 1 + max(height(root.Left), height(root.Right))
+
+	return count
 }
