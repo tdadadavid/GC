@@ -113,6 +113,18 @@ func (t *Tree[T]) InOrder(node *Node[T], result []T) []T {
 	return result
 }
 
+func (t *Tree[T]) PostOrder(node *Node[T], result []T) []T {
+	if node == nil {
+		return result
+	}
+
+	result = t.PostOrder(node.Left, result)
+	result = t.PostOrder(node.Right, result)
+	result = append(result, node.Value)
+
+	return result
+}
+
 func (t *Tree[T]) isEmpty() bool {
 	return t.Root == nil
 }
