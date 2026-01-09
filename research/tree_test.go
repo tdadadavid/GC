@@ -101,6 +101,7 @@ func TestTree_PostOrder(t *testing.T) {
 }
 
 func compare(t *testing.T, expected, got []int) bool {
+	t.Helper()
 	for i := range len(expected) {
 		if expected[i] != got[i] {
 			return false
