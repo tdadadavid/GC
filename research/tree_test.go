@@ -63,11 +63,34 @@ func TestTree_PreOrder(t *testing.T) {
 		t.Fatalf("expected length %d, got %d", len(expectedOrder), len(result))
 	}
 
-	for i := range len(expectedOrder) {
-		if expectedOrder[i] != result[i] {
-			t.Fatalf("expected=%v, got=%v", expectedOrder, result)
+	if isSame := compare(t, expectedOrder, result); !isSame {
+		t.Fatalf("expected=%v, got=%v", expectedOrder, result)
+	}
+}
+
+func TestTree_InOrder(t *testing.T) {
+	tree := NewTree[int]()
+	setup(t, tree, 7, 4, 9, 1, 6, 8, 10)
+	expectedOrder := []int{1,4,6,7,8,9,10}
+
+	result := make([]int, 0)
+	result = tree.InOrder(tree.Root, result)
+	if len(expectedOrder) != len(result) {
+		t.Fatalf("expected length %d, got %d", len(expectedOrder), len(result))
+	}
+
+	if isSame := compare(t, expectedOrder, result); !isSame {
+		t.Fatalf("expected=%v, got=%v", expectedOrder, result)
+	}
+}
+
+func compare(t *testing.T, expected, got []int) bool {
+	for i := range len(expected) {
+		if expected[i] != got[i] {
+			return false
 		}
 	}
+	return true
 }
 
 func setup(t *testing.T, tree *Tree[int], values ...any) *Tree[int] {

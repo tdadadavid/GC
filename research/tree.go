@@ -100,6 +100,19 @@ func (t *Tree[T]) PreOrder(node *Node[T], result []T) []T {
 	return result
 }
 
+// Left -> Root -> Right
+func (t *Tree[T]) InOrder(node *Node[T], result []T) []T {
+	if node == nil {
+		return result
+	}
+
+	result = t.InOrder(node.Left, result)
+	result = append(result, node.Value)
+	result = t.InOrder(node.Right, result)
+
+	return result
+}
+
 func (t *Tree[T]) isEmpty() bool {
 	return t.Root == nil
 }
