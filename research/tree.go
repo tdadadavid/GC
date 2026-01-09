@@ -113,6 +113,7 @@ func (t *Tree[T]) InOrder(node *Node[T], result []T) []T {
 	return result
 }
 
+// Left -> Right -> Root
 func (t *Tree[T]) PostOrder(node *Node[T], result []T) []T {
 	if node == nil {
 		return result
