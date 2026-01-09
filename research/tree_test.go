@@ -71,7 +71,7 @@ func TestTree_PreOrder(t *testing.T) {
 func TestTree_InOrder(t *testing.T) {
 	tree := NewTree[int]()
 	setup(t, tree, 7, 4, 9, 1, 6, 8, 10)
-	expectedOrder := []int{1,4,6,7,8,9,10}
+	expectedOrder := []int{1, 4, 6, 7, 8, 9, 10}
 
 	result := make([]int, 0)
 	result = tree.InOrder(tree.Root, result)
@@ -87,7 +87,7 @@ func TestTree_InOrder(t *testing.T) {
 func TestTree_PostOrder(t *testing.T) {
 	tree := NewTree[int]()
 	setup(t, tree, 7, 4, 9, 1, 6, 8, 10)
-	expectedOrder := []int{1,6,4,8,10,9,7}
+	expectedOrder := []int{1, 6, 4, 8, 10, 9, 7}
 
 	result := make([]int, 0)
 	result = tree.PostOrder(tree.Root, result)
@@ -102,6 +102,7 @@ func TestTree_PostOrder(t *testing.T) {
 
 func compare(t *testing.T, expected, got []int) bool {
 	t.Helper()
+
 	for i := range len(expected) {
 		if expected[i] != got[i] {
 			return false
