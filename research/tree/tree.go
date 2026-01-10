@@ -1,7 +1,8 @@
-package research
+package tree
 
 import (
 	"errors"
+
 	"golang.org/x/exp/constraints"
 )
 
@@ -145,8 +146,6 @@ func (t *Tree[T]) Min() (T, error) {
 func isEmpty[T constraints.Ordered](node *Node[T]) bool {
 	return node == nil
 }
-
-
 
 func minimum[T constraints.Ordered](root *Node[T]) (T, bool) {
 	var zero T

@@ -1,4 +1,4 @@
-package research
+package tree
 
 import (
 	"fmt"
@@ -102,30 +102,30 @@ func TestTree_PostOrder(t *testing.T) {
 }
 
 func TestTree_Height(t *testing.T) {
-	tests := []struct{
-		name string
-		input []int
+	tests := []struct {
+		name           string
+		input          []int
 		expectedHeight int
 	}{
 		{
-			name: "Height of an empty tree is -1",
-			input: []int{},
+			name:           "Height of an empty tree is -1",
+			input:          []int{},
 			expectedHeight: -1,
 		},
 		{
-			name: "Height of the tree should be 1",
-			input: []int{1,2},
+			name:           "Height of the tree should be 1",
+			input:          []int{1, 2},
 			expectedHeight: 1,
 		},
 		{
-			name: "Height of tree should be 4",
-			input: []int{10,8,15,3,9,1,2,12},
+			name:           "Height of tree should be 4",
+			input:          []int{10, 8, 15, 3, 9, 1, 2, 12},
 			expectedHeight: 4,
 		},
 	}
 
-	for _ , tt := range tests {
-		t.Run(tt.name, func (t *testing.T) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
 			tree := NewTree[int]()
 			for _, value := range tt.input {
 				tree.Insert(value)
@@ -140,15 +140,15 @@ func TestTree_Height(t *testing.T) {
 }
 
 func TestTree_Minimum(t *testing.T) {
-	tests := []struct{
-		name string
-		input []int
+	tests := []struct {
+		name        string
+		input       []int
 		expectedMin int
 		expectError bool
 	}{
 		{
-			name: "the minimum of an empty tree is 0",
-			input: []int{},
+			name:        "the minimum of an empty tree is 0",
+			input:       []int{},
 			expectError: true,
 		},
 		// {
@@ -159,8 +159,8 @@ func TestTree_Minimum(t *testing.T) {
 		// },
 	}
 
-	for _ , tt := range tests {
-		t.Run(tt.name, func (t *testing.T) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
 			tree := NewTree[int]()
 
 			for _, value := range tt.input {

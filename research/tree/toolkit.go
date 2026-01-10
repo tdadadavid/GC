@@ -1,9 +1,10 @@
-package research
+package tree
 
 import (
 	"fmt"
-	"golang.org/x/exp/constraints"
 	"strings"
+
+	"golang.org/x/exp/constraints"
 )
 
 func (t *Tree[T]) String() string {
