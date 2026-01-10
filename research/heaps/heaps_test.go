@@ -45,14 +45,50 @@ func TestHeap_Insert(t *testing.T) {
 				t.Fatalf("expected empty to be %d, got=%d", test.expectedCap, len(heap.values))
 			}
 
-			if ok := compare(heap.Values(), test.expectedShape); !ok {
+			if ok := compare(t, heap.Values(), test.expectedShape); !ok {
 				t.Fatalf("expected heap shape to be %d, got=%d", heap.Values(), test.expectedShape)
 			}
 		})
 	}
 }
 
-func compare(got, expected []int) bool {
+func TestHeap_Remove(t *testing.T) {
+	tests := map[string]struct {
+		inputs         []int
+		valuesToRemove []int
+		size           int
+		expectedCap    int
+		expectedShape  []int
+	}{
+		"Root should be z after deletion": {},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			heap := NewHeap(test.size)
+
+			for _, val := range test.inputs {
+				heap.Insert(val)
+			}
+
+			for _, val := range test.valuesToRemove {
+				heap.Remove(val)
+			}
+
+			if heap.Size() != test.expectedCap {
+				t.Fatalf("expected empty to be %d, got=%d", test.expectedCap, len(heap.values))
+			}
+
+			if ok := compare(t, heap.Values(), test.expectedShape); !ok {
+				t.Fatalf("expected heap shape to be %d, got=%d", heap.Values(), test.expectedShape)
+			}
+		})
+	}
+}
+
+func compare(t *testing.T, got, expected []int) bool {
+	t.Helper()
+
 	result := slices.Compare(got, expected)
 	return result == 0
 }

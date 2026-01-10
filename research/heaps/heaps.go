@@ -29,6 +29,10 @@ func (h *Heap) Insert(value int) {
 	h.bubbleUp()
 }
 
+func (h *Heap) Remove(value int) {
+
+}
+
 func (h *Heap) Size() int {
 	return h.size
 }
