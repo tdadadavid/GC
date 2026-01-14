@@ -32,13 +32,13 @@ func NewTrieH() TrieH {
 func (t *TrieH) InsertH(word string) {
 	current := t.root
 
-	for _, val := range word {
+	for idx, val := range word {
 		if current.children[val] == nil {
-			current.children[val] = NewNodeH(val, false)
+			isLastChar := idx == len(word)-1
+			current.children[val] = NewNodeH(val, isLastChar)
 		}
 		current = current.children[val]
 	}
-	current.isEndOfWord = true
 }
 
 func (t *TrieH) Contains(word string) (contains bool) {
