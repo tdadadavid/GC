@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type NodeH struct {
 	value       rune
 	children    map[rune]*NodeH
@@ -47,7 +49,7 @@ func (t *TrieH) PreOrder() (result []string) {
 		return result
 	}
 
-	result = preOrder(t.root)
+	preOrder(t.root, &result)
 	return result
 }
 
@@ -57,26 +59,24 @@ func (t *TrieH) PostOrder() (result []string) {
 		return result
 	}
 
-	result = postOrder(t.root)
+	postOrder(t.root, &result)
 	return result
 }
 
-func postOrder(node *NodeH) (result []string) {
+func postOrder(node *NodeH, result *[]string) {
 	for _, child := range node.children { // Children
-		result = append(result, postOrder(child)...)
+		postOrder(child, result)
 	}
 
-	result = append(result, string(node.value))
-	return result
+	*result = append(*result, string(node.value))
 }
 
-func preOrder(node *NodeH) (result []string) {
-	result = append(result, string(node.value)) // Root
+func preOrder(node *NodeH, result *[]string) {
+	*result = append(*result, string(node.value)) // Root
 
 	for _, child := range node.children { // Children
-		result = append(result, preOrder(child)...)
+		preOrder(child, result)
 	}
-	return result
 }
 
 func (t *TrieH) Contains(word string) (contains bool) {
@@ -103,20 +103,20 @@ func (t *TrieH) Contains(word string) (contains bool) {
 	return contains
 }
 
-// func main() {
-// 	trieH := NewTrieH()
-// 	trieH.InsertH("care")
-// 	// trieH.InsertH("bomb")
-// 	// trieH.InsertH("boat")
-// 	fmt.Printf("trieH contains boy: %t\n", trieH.Contains("boy"))
-// 	fmt.Printf("trieH contains bomb: %t\n", trieH.Contains("bomb"))
-// 	fmt.Printf("trieH contains bomber: %t\n", trieH.Contains("bomber"))
-// 	fmt.Printf("trieH contains bo: %t\n", trieH.Contains("bo"))
-// 	fmt.Printf("trieH contains `''`: %t\n", trieH.Contains(""))
-// 	fmt.Printf("trieH contains boat: %t\n", trieH.Contains("boat"))
-// 	fmt.Printf("trieH contains ``: %t\n", trieH.Contains(``))
-// 	// fmt.Printf("trieH %v\n", trieH.String())
+func main() {
+	trieH := NewTrieH()
+	trieH.InsertH("care")
+	// trieH.InsertH("bomb")
+	// trieH.InsertH("boat")
+	fmt.Printf("trieH contains boy: %t\n", trieH.Contains("boy"))
+	fmt.Printf("trieH contains bomb: %t\n", trieH.Contains("bomb"))
+	fmt.Printf("trieH contains bomber: %t\n", trieH.Contains("bomber"))
+	fmt.Printf("trieH contains bo: %t\n", trieH.Contains("bo"))
+	fmt.Printf("trieH contains `''`: %t\n", trieH.Contains(""))
+	fmt.Printf("trieH contains boat: %t\n", trieH.Contains("boat"))
+	fmt.Printf("trieH contains ``: %t\n", trieH.Contains(``))
+	// fmt.Printf("trieH %v\n", trieH.String())
 
-// 	fmt.Printf("result(postorder) %v\n", trieH.PostOrder())
-// 	fmt.Printf("result(preorder) %v\n", trieH.PreOrder())
-// }
+	fmt.Printf("result(postorder) %v\n", trieH.PostOrder())
+	fmt.Printf("result(preorder) %v\n", trieH.PreOrder())
+}
