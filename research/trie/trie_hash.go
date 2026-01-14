@@ -40,3 +40,27 @@ func (t *TrieH) InsertH(word string) {
 	}
 	current.isEndOfWord = true
 }
+
+func (t *TrieH) Contains(word string) (contains bool) {
+	if len(word) == 0 {
+		return contains
+	}
+
+	current := t.root
+	for idx, val := range word {
+		current = current.children[val]
+		if current == nil {
+			return contains
+		}
+
+		lastChar := idx == len(word)-1
+
+		if val == current.value && lastChar && current.isEndOfWord {
+			contains = true
+			return contains
+		}
+
+	}
+
+	return contains
+}
