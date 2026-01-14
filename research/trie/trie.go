@@ -36,8 +36,7 @@ func (t *Trie) Insert(word string) {
 		// get the index of character and check if it is the end of the word
 		index := val - 'a'
 
-		node := current.children[index]
-		if node == nil {
+		if current.children[index] == nil {
 			current.children[index] = NewNode(val, false)
 		}
 		current = current.children[index]
