@@ -1,4 +1,4 @@
-package trie
+package main
 
 import "encoding/json"
 
@@ -57,7 +57,7 @@ type jsonNodeH struct {
 	Children    map[string]*jsonNodeH `json:"children,omitempty"`
 }
 
-func (t TrieH) String() string {
+func (t *TrieH) String() string {
 	if t.root == nil {
 		return "{}"
 	}

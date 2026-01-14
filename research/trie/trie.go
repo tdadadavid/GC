@@ -1,69 +1,124 @@
-package trie
+package main
 
-const ALPHABET_SIZE int = 26
+import "fmt"
 
-type Node struct {
+type NodeH struct {
 	value       rune
+	children    map[rune]*NodeH
 	isEndOfWord bool
-	children    [ALPHABET_SIZE]*Node
 }
 
-func NewNode(val rune, isEndOfWord bool) *Node {
-	return &Node{
+// trie implemented using a HashMap
+type TrieH struct {
+	root *NodeH
+}
+
+func NewNodeH(val rune, isEndOfWord bool) *NodeH {
+	return &NodeH{
 		value:       val,
+		children:    make(map[rune]*NodeH, 0),
 		isEndOfWord: isEndOfWord,
 	}
 }
 
-type Trie struct {
-	root *Node
-}
-
-func NewTrie() Trie {
-	return Trie{
-		root: &Node{},
+func NewTrieH() TrieH {
+	return TrieH{
+		root: &NodeH{
+			value:       '\x00',
+			children:    map[rune]*NodeH{},
+			isEndOfWord: false,
+		},
 	}
 }
 
-func (t *Trie) Insert(word string) {
+func (t *TrieH) InsertH(word string) {
 	current := t.root
 
-	for _, val := range word {
-		// get the index of character and check if it is the end of the word
-		index := val - 'a'
-		if current.children[index] == nil {
-			current.children[index] = NewNode(val, false)
+	for idx, val := range word {
+		if current.children[val] == nil {
+			isLastChar := idx == len(word)-1
+			current.children[val] = NewNodeH(val, isLastChar)
 		}
-		current = current.children[index]
+		current = current.children[val]
 	}
-
-	current.isEndOfWord = true
 }
 
-// func main() {
-// 	trieH := NewTrieH()
-// 	trieH.InsertH("boy")
-// 	trieH.InsertH("bomb")
-// 	trieH.InsertH("boat")
-// 	fmt.Printf("trieH contains boy: %t\n", trieH.Contains("boy"))
-// 	fmt.Printf("trieH contains bomb: %t\n", trieH.Contains("bomb"))
-// 	fmt.Printf("trieH contains bomber: %t\n", trieH.Contains("bomber"))
-// 	fmt.Printf("trieH contains bo: %t\n", trieH.Contains("bo"))
-// 	fmt.Printf("trieH contains `''`: %t\n", trieH.Contains(""))
-// 	fmt.Printf("trieH contains boat: %t\n", trieH.Contains("boat"))
-// 	fmt.Printf("trieH contains ``: %t\n", trieH.Contains(``))
+// Root -> Children
+func (t *TrieH) PreOrder() (result []string) {
+	if t.root == nil {
+		return result
+	}
 
-// 	println()
+	result = preOrder(t.root)
+	return result
+}
 
-// 	trie := NewTrie()
-// 	trie.Insert("boy")
-// 	trie.Insert("bomb")
-// 	trie.Insert("boat")
+// Children -> Root
+func (t *TrieH) PostOrder() (result []string) {
+	if t.root == nil {
+		return result
+	}
 
-// 	// fmt.Printf("trieH contains boy: %t\n", trie.Contains("boy"))
-// 	// fmt.Printf("trieH contains bo: %t\n", trie.Contains("bo"))
+	result = postOrder(t.root)
+	return result
+}
 
-// 	// fmt.Printf("trieH %v\n\n", trieH.String())
-// 	// fmt.Printf("trie %v", trie.String())
+func postOrder(node *NodeH) (result []string) {
+	for _, child := range node.children { // Children
+		result = append(result, postOrder(child)...)
+	}
 
-// }
+	result = append(result, string(node.value))
+	return result
+}
+
+func preOrder(node *NodeH) (result []string) {
+	result = append(result, string(node.value)) // Root
+
+	for _, child := range node.children { // Children
+		result = append(result, preOrder(child)...)
+	}
+	return result
+}
+
+func (t *TrieH) Contains(word string) (contains bool) {
+	if len(word) == 0 {
+		return contains
+	}
+
+	current := t.root
+	for idx, val := range word {
+		current = current.children[val]
+		if current == nil {
+			return contains
+		}
+
+		lastChar := idx == len(word)-1
+
+		if val == current.value && lastChar && current.isEndOfWord {
+			contains = true
+			return contains
+		}
+
+	}
+
+	return contains
+}
+
+func main() {
+	trieH := NewTrieH()
+	trieH.InsertH("care")
+	// trieH.InsertH("bomb")
+	// trieH.InsertH("boat")
+	fmt.Printf("trieH contains boy: %t\n", trieH.Contains("boy"))
+	fmt.Printf("trieH contains bomb: %t\n", trieH.Contains("bomb"))
+	fmt.Printf("trieH contains bomber: %t\n", trieH.Contains("bomber"))
+	fmt.Printf("trieH contains bo: %t\n", trieH.Contains("bo"))
+	fmt.Printf("trieH contains `''`: %t\n", trieH.Contains(""))
+	fmt.Printf("trieH contains boat: %t\n", trieH.Contains("boat"))
+	fmt.Printf("trieH contains ``: %t\n", trieH.Contains(``))
+	// fmt.Printf("trieH %v\n", trieH.String())
+
+	fmt.Printf("result(postorder) %v\n", trieH.PostOrder())
+	fmt.Printf("result(preorder) %v\n", trieH.PreOrder())
+}
