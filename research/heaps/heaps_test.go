@@ -46,7 +46,7 @@ func TestHeap_Insert(t *testing.T) {
 			}
 
 			if ok := compare(t, heap.Values(), test.expectedShape); !ok {
-				t.Fatalf("expected heap shape to be %d, got=%d", heap.Values(), test.expectedShape)
+				t.Fatalf("expected heap shape to be %d, got=%d", test.expectedShape, heap.Values())
 			}
 		})
 	}
@@ -60,11 +60,19 @@ func TestHeap_Remove(t *testing.T) {
 		expectedCap    int
 		expectedShape  []int
 	}{
-		"Root should be z after deletion": {},
+		"Root should be z after deletion": {
+			inputs:         []int{1, 4, 5},
+			valuesToRemove: []int{5}, //remove root
+			size:           5,
+			expectedCap:    2,
+			expectedShape:  []int{4, 1, 0, 0, 0},
+		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
 			heap := NewHeap(test.size)
 
 			for _, val := range test.inputs {
@@ -80,7 +88,7 @@ func TestHeap_Remove(t *testing.T) {
 			}
 
 			if ok := compare(t, heap.Values(), test.expectedShape); !ok {
-				t.Fatalf("expected heap shape to be %d, got=%d", heap.Values(), test.expectedShape)
+				t.Fatalf("expected heap shape to be %d, got=%d", test.expectedShape, heap.Values())
 			}
 		})
 	}
