@@ -6,7 +6,7 @@ type NodeH struct {
 	isEndOfWord bool
 }
 
-// trie implemented using a HashMap
+// TrieH trie implemented using a HashMap
 type TrieH struct {
 	root *NodeH
 }
