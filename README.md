@@ -10,7 +10,7 @@ Metrics when choosing a Garbage Collector
 6. Space time
 7. Language Overhead
 
-
+----
 1. **Safety**: a collector must never reclaim a `live object` that is still in use. Not all garbage collectors are safe.
 
 2. **Throughput**: The amount of time spent collecting garbage relative to the amount of time spent executing user code should be **very low**. This is
