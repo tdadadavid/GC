@@ -67,3 +67,5 @@ graph TD
 8. [Go garbage collector](https://tip.golang.org/doc/gc-guide)
 9. [Reddit Go Garbage Collector](https://www.reddit.com/r/golang/comments/17i8tof/where_can_i_learn_in_depth_about_golang_garbage/)
 10. [Zero Allocation JSON lexer in GO](https://www.reddit.com/r/golang/comments/jbmsx3/ann_fast_json_lexer_with_zero_heap_allocations/)
+11. [Zero Dependency GC](https://github.com/mkirchner/gc?tab=readme-ov-file#data-structures)
+12. [GC - example](https://github.com/venkat1017/Garbage-Collector/tree/main)
